@@ -1,0 +1,40 @@
+import re
+
+def check_password_strength(password):
+    errors = []
+
+    # Checks password requirements
+    if len(password) < 12:
+        errors.append("Password must be at least 12 characters long!")
+    if not re.search(r'[A-Z]', password):
+        errors.append("Password must include at least one uppercase letter!")
+    if not re.search(r'[a-z]', password):
+        errors.append("Password must include at least one lowercase letter!")
+    if not re.search(r'\d', password):
+        errors.append("Password must include at least one number!")
+    if not re.search(r'[\W_]', password):
+        errors.append("Password must include at least one special character (e.g., !@#%)")
+    
+    
+    #Determines strength level
+    if len(errors) == 0:
+        strength = "Strong"
+    elif len(errors) <= 2:
+        strength = "Moderate"
+    else:
+        strength = "Weak"
+
+    return strength, errors
+
+ #Runs the checker
+if __name__ == "__main__":
+    password = input("Enter your password: ")
+    strength, issues = check_password_strength(password)
+
+    print("\nPassword Strength:", strength)
+    if issues:
+        print("Issues:")
+        for issue in issues:
+            print("-", issue)
+    else:
+        print("Your password meets all requirements.")
